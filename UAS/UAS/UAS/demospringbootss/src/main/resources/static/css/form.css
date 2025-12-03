@@ -1,0 +1,76 @@
+#feedback-form {
+    width: 320px;
+    margin: 50px auto;
+    background-color: #fff;
+    padding: 30px;
+    border: 3px solid #000; /* Border Tebal */
+    box-shadow: 10px 10px 0px #000; /* Shadow Keras */
+    font-family: 'Courier New', monospace;
+}
+  
+#feedback-form * { box-sizing: border-box; }
+
+#feedback-form h2 {
+    text-align: center;
+    text-transform: uppercase;
+    background-color: #000;
+    color: #fff;
+    padding: 10px;
+    margin-bottom: 30px;
+}
+
+#feedback-form label {
+    color: #000;
+    font-weight: 900;
+    text-transform: uppercase;
+    font-size: 0.9em;
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* Input kotak tegas */
+#feedback-form input,
+#feedback-form select,
+#feedback-form textarea {
+    display: block;
+    width: 100%;
+    margin-bottom: 20px;
+    background-color: #fff;
+    border: 3px solid #000;
+    border-radius: 0; /* Pastikan siku tajam */
+    padding: 10px;
+    font-family: inherit;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+/* Input fokus jadi warna lain */
+#feedback-form input:focus,
+#feedback-form select:focus,
+#feedback-form textarea:focus {
+    outline: none;
+    background-color: #d6f5ff; /* Biru muda */
+    box-shadow: 4px 4px 0 rgba(0,0,0,1);
+}
+
+#feedback-form button[type=submit] {
+    display: block;
+    width: 100%;
+    height: 50px;
+    border: 3px solid #000;
+    border-radius: 0;
+    background-color: #FF4655; /* Merah Valorant */
+    color: #fff;
+    font-weight: 900;
+    text-transform: uppercase;
+    font-size: 1.1em;
+    box-shadow: 5px 5px 0px #000;
+    cursor: pointer;
+    transition: all 0.1s;
+}
+
+/* Efek tombol ditekan */
+#feedback-form button[type=submit]:active {
+    transform: translate(4px, 4px); /* Geser tombol */
+    box-shadow: 1px 1px 0px #000; /* Kecilkan shadow */
+}

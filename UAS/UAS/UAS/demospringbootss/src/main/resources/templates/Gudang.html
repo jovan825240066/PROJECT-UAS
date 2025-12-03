@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Gudang Page</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/home.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/table.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/navbar.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/form.css}" />
+</head>
+<body>
+
+    <div class="navbar">
+        <h1 class="logo">TTE Express</h1>
+        <ul class="nav-menu">
+            <li><a th:href="@{/ekspedisi}">Ekspedisi</a></li>
+            <li><a th:href="@{/gudang}">Gudang</a></li>
+            <li><a th:href="@{/kendaraan}">Kendaraan</a></li>
+            <li><a th:href="@{/paket}">Paket</a></li>
+        </ul>
+    </div>
+
+    <div class="first-box">
+        <h2>Daftar Gudang</h2>
+        <p style="font-size: 14px; color: gray;">*Klik ID Gudang untuk melihat isi paket di dalamnya.</p>
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Kode Gudang</th>
+                    <th>Lokasi</th>
+                    <th>Kapasitas</th>
+                    <th>Terisi</th>
+                </tr>
+            </thead>
+            <tbody th:each="d, no : ${gudangList}">
+                <tr>
+                    <td th:text="${no.count}"></td>
+                    <td>
+                        <a th:href="@{/gudang/{id}(id=${d.getId()})}"
+                           th:text="${d.getIdGudang()}"
+                           style="font-weight: bold; color: blue;"></a>
+                    </td>
+                    <td th:text="${d.getLokasi()}"></td>
+                    <td th:text="${d.getKapasitas()}"></td>
+                    <td th:text="${d.getTerisi()}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="first-box" style="margin-top: 30px; border: 2px solid #4CAF50;" th:if="${listPaketGudang != null}"> 
+        <h2 style="color: #4CAF50;">Isi Gudang: <span th:text="${gudangRec.lokasi}"></span></h2>
+        
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>No Resi</th>
+                    <th>Jenis Barang</th>
+                    <th>Berat</th>
+                    <th>Penerima</th>
+                </tr>
+            </thead>
+            <tbody th:each="p : ${listPaketGudang}">
+                <tr>
+                    <td th:text="${p.nomorResi}"></td>
+                    <td th:text="${p.jenisBarang}"></td>
+                    <td th:text="${p.beratBarang} + ' Kg'"></td>
+                    <td th:text="${p.penerima}"></td>
+                </tr>
+                 <tr th:if="${#lists.isEmpty(listPaketGudang)}">
+                    <td colspan="4" style="text-align:center; color: gray; font-style: italic;">
+                        Gudang ini masih kosong.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="first-box" style="margin-top: 30px;"> 
+        <h2>Daftar Kendaraan Tersedia</h2>
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Tipe</th>
+                    <th>Merk</th>
+                    <th>Tahun</th>
+                </tr>
+            </thead>
+            <tbody th:each="k, no : ${kendaraanList}">
+                <tr>
+                    <td th:text="${no.count}"></td>
+                    <td th:text="${k.getTipe()}"></td> 
+                    <td th:text="${k.merk}"></td>
+                    <td th:text="${k.tahun}"></td>
+                </tr>
+                 <tr th:if="${#lists.isEmpty(kendaraanList)}">
+                    <td colspan="4" style="text-align:center;">Tidak ada kendaraan</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="second-box">
+        <div id="feedback-form">
+            <h2 class="header">Form Management Gudang</h2>
+            <form th:action="@{/gudang/submit/{id}(id=${gudangRec?.getId()})}"
+                  method="post" th:object="${gudangInfo}" class="form-group">
+                
+                <label for="id" class="form-label">ID System</label>
+                <input type="number" id="id" name="id"
+                       th:value="${gudangRec != null} ? ${gudangRec.getId()}: '0'"
+                       readonly />
+
+                <label for="idGudang" class="form-label">Kode Gudang</label>
+                <input type="text" id="idGudang" name="idGudang"
+                       th:value="${gudangRec?.getIdGudang()}"
+                       required />
+
+                <label for="lokasi" class="form-label">Lokasi</label>
+                <input type="text" id="lokasi" name="lokasi"
+                       th:value="${gudangRec?.getLokasi()}"
+                       required />
+
+                <label for="kapasitas" class="form-label">Kapasitas</label>
+                <input type="number" id="kapasitas" name="kapasitas"
+                       th:value="${gudangRec?.getKapasitas()}"
+                       required />
+
+                <label for="terisi" class="form-label">Terisi</label>
+                <input type="number" id="terisi" name="terisi"
+                       th:value="${gudangRec != null} ? ${gudangRec.getTerisi()} : 0"
+                       required />
+
+                <button type="submit" class="btn btn-primary" name="add">Add</button>
+                <button type="submit" class="btn btn-primary" name="edit">Edit</button>
+                <button type="submit" class="btn btn-primary" name="delete">Delete</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

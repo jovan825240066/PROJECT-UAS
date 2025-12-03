@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"> <head>
+    <title>Ekspedisi Page</title>
+    
+    <link rel="stylesheet" type="text/css" th:href="@{/css/home.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/table.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/navbar.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/form.css}" />
+</head>
+<body>
+
+    <div class="navbar">
+        <h1 class="logo">TTE Express</h1>
+        <ul class="nav-menu">
+            <li><a th:href="@{/ekspedisi}">Ekspedisi</a></li>
+            <li><a th:href="@{/gudang}">Gudang</a></li>
+            <li><a th:href="@{/kendaraan}">Kendaraan</a></li>
+            <li><a th:href="@{/paket}">Paket</a></li>
+        </ul>
+    </div>
+    
+    <div style="margin: 20px;">
+        <a th:href="@{/}" style="text-decoration: none; color: #333;">&larr; Kembali ke Menu Utama</a>
+    </div>
+
+    <div class="first-box">
+        <h2>Daftar Ekspedisi</h2>
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>ID Ekspedisi</th>
+                    <th>Tanggal Kirim</th>
+                    <th>Status</th>
+                    <th>Asal</th>
+                    <th>Tujuan</th>
+                    <th>Paket</th>
+                    <th>Kendaraan</th>
+                </tr>
+            </thead>
+            
+            <tbody th:each="d, no : ${ekspedisiList}">
+                <tr>
+                    <td th:text="${no.count}"></td> <td>
+                        <a th:href="@{/ekspedisi/{id}(id=${d.getId()})}" 
+                           th:text="${d.getIdEkspedisi()}"></a> 
+                    </td>
+                    <td th:text="${d.getTanggalKirim()}"></td>
+                    <td th:text="${d.getStatusPengiriman()}"></td>
+                    <td th:text="${d.getAsal()}"></td>
+                    <td th:text="${d.getTujuan()}"></td>
+                    
+                    <td th:text="${d.paket != null} ? ${d.paket.nomorResi} : '-'"></td>
+                    <td th:text="${d.kendaraan != null} ? ${d.kendaraan.merk} : '-'"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="second-box">
+        <div id="feedback-form">
+            <h2 class="header">Form Ekspedisi</h2>
+            
+            <form th:action="@{/ekspedisi/submit/{id}(id=${ekspedisiRec?.getId()})}"
+                  method="post" 
+                  th:object="${ekspedisiInfo}" 
+                  class="form-group">
+                
+                <label for="id" class="form-label">ID System</label>
+                <input type="number" id="id" name="id"
+                       th:value="${ekspedisiRec != null} ? ${ekspedisiRec.getId()} : '0'"
+                       readonly />
+
+                <div class="mb-3">
+                    <label class="form-label">ID Ekspedisi</label>
+                    <input type="text" class="form-control" th:field="*{idEkspedisi}" required placeholder="Contoh: EKS-001" />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Tanggal Kirim</label>
+                    <input type="date" class="form-control" th:field="*{tanggalKirim}" required />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Status</label>
+                    <input type="text" class="form-control" th:field="*{statusPengiriman}" required />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Asal</label>
+                    <input type="text" class="form-control" th:field="*{asal}" required />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Tujuan</label>
+                    <input type="text" class="form-control" th:field="*{tujuan}" required />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Pilih Paket</label>
+                    <select class="form-control" th:field="*{paket}">
+                        <option value="">-- Pilih Paket --</option>
+                        <option th:each="p : ${listPaket}" 
+                                th:value="${p.id}" 
+                                th:text="${p.nomorResi} + ' - ' + ${p.jenisLayanan}"></option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Pilih Kendaraan</label>
+                    <select class="form-control" th:field="*{kendaraan}">
+                        <option value="">-- Pilih Kendaraan --</option>
+                        <option th:each="k : ${listKendaraan}" 
+                                th:value="${k.id}" 
+                                th:text="${k.merk} + ' (' + ${k.tahun} + ')'"></option>
+                    </select>
+                </div>
+
+                <div style="margin-top: 20px;">
+                    <button type="submit" class="btn btn-primary" name="add">Add</button> <button type="submit" class="btn btn-primary" name="edit">Edit</button> <button type="submit" class="btn btn-primary" name="delete" 
+                            style="background-color: #dc3545;"
+                            onclick="return confirm('Yakin ingin menghapus data ini?')">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div style="width: 100%; clear: both; margin-top: 50px; padding-bottom: 50px;">
+        
+        <h3 style="text-align: center; margin-bottom: 20px; color: #333;">Referensi Data Tersedia</h3>
+
+        <div style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap;">
+            
+            <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); min-width: 400px;">
+                <h4 style="margin-top: 0; color: #333;">Daftar Paket</h4>
+                <table class="styled-table" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>No. Resi</th>
+                            <th>Layanan</th>
+                            <th>Berat</th>
+                            <th>Tujuan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="p, no : ${listPaket}">
+                            <td th:text="${no.count}"></td>
+                            <td th:text="${p.nomorResi}"></td>
+                            <td th:text="${p.jenisLayanan}"></td>
+                            <td th:text="${p.beratBarang} + ' kg'"></td>
+                            <td th:text="${p.tujuan}"></td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(listPaket)}">
+                            <td colspan="5" style="text-align:center;">Kosong</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); min-width: 400px;">
+                <h4 style="margin-top: 0; color: #333;">Daftar Kendaraan</h4>
+                <table class="styled-table" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>ID</th>
+                            <th>Merk</th>
+                            <th>Tahun</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="k, no : ${listKendaraan}">
+                            <td th:text="${no.count}"></td>
+                            <td th:text="${k.id}"></td>
+                            <td th:text="${k.merk}"></td>
+                            <td th:text="${k.tahun}"></td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(listKendaraan)}">
+                            <td colspan="4" style="text-align:center;">Kosong</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+    
+</body>
+</html>

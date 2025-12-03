@@ -1,0 +1,73 @@
+.green {
+    background-color: green;
+}
+
+.red {
+    background-color: red;
+}
+
+.first-box {
+    width:auto; 
+    float:left; 
+    height: auto;
+    margin: 50px
+  }
+
+  .second-box {
+    width:auto; 
+    height: auto; 
+    float:left; 
+    margin: 50px
+  }
+
+  .green {
+    background-color: green;
+}
+
+.red {
+    background-color: red;
+}
+
+.first-box {
+    width:auto; 
+    float:left; 
+    height: auto;
+    margin: 50px
+  }
+
+  .second-box {
+    width:auto; 
+    height: auto; 
+    float:left; 
+    margin: 50px
+  }
+
+  /* Tambahkan ini di home.css */
+
+.logout-button {
+    /* Membuat posisi di pojok kanan atas */
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    
+    /* Styling agar terlihat seperti tombol */
+    background-color: #009879; /* Samakan dengan warna tabel Anda */
+    color: white;
+    padding: 10px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.logout-button:hover {
+    background-color: #007a63;
+}
+
+.welcome-message {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333;
+}
