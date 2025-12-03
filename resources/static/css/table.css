@@ -1,0 +1,43 @@
+.styled-table {
+    border-collapse: collapse;
+    margin: 30px auto;
+    font-size: 1em;
+    font-family: 'Courier New', Courier, monospace; /* Font mesin ketik */
+    min-width: 450px;
+    background-color: #fff;
+    /* Border tebal hitam */
+    border: 3px solid #000; 
+    /* Shadow keras (hard shadow) */
+    box-shadow: 8px 8px 0px #000; 
+}
+
+.styled-table thead tr {
+    background-color: #FFDE00; /* Warna Kuning Terang */
+    color: #000;
+    text-align: left;
+    border-bottom: 3px solid #000;
+}
+
+.styled-table th,
+.styled-table td {
+    padding: 15px 20px;
+    border-right: 3px solid #000; /* Garis pemisah vertikal tebal */
+}
+
+.styled-table td {
+    font-weight: bold;
+}
+
+.styled-table tbody tr {
+    border-bottom: 3px solid #000;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f0f0f0; /* Abu-abu polos */
+}
+
+/* Hover effect ganti warna drastis */
+.styled-table tbody tr:hover {
+    background-color: #FF90E8; /* Pink Neon saat hover */
+    color: #000;
+}

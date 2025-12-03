@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Kurir Page</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/home.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/table.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/form.css}" />
+</head>
+<body>
+    
+    <div style="margin: 20px;">
+        <a th:href="@{/orang}" style="text-decoration: none; color: #333;">&larr; Kembali ke Menu Utama</a>
+    </div>
+
+    <div class="first-box">
+        <h2>Daftar Kurir</h2>
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Nama</th>
+                    <th>Perusahaan</th>
+                    <th>Kendaraan</th>
+                </tr>
+            </thead>
+            <tbody th:each="d, no : ${listData}">
+                <tr>
+                    <td th:text="${no.count}"></td>
+                    <td>
+                        <a th:href="@{/kurir/{id}(id=${d.id})}" th:text="${d.nama}"></a>
+                    </td>
+                    <td th:text="${d.perusahaan}"></td>
+                    <td th:text="${d.kendaraan}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="second-box">
+        <div id="feedback-form">
+            <h2 class="header">Form Kurir</h2>
+            <form th:action="@{/kurir/save}" method="post" th:object="${formData}" class="form-group">
+                
+                <input type="hidden" th:field="*{id}" />
+                
+                <label class="form-label">Nama</label>
+                <input type="text" th:field="*{nama}" required />
+                
+                <label class="form-label">Alamat</label>
+                <input type="text" th:field="*{alamat}" required />
+                
+                <label class="form-label">No HP</label>
+                <input type="text" th:field="*{noHP}" required />
+                
+                <label class="form-label">Perusahaan</label>
+                <input type="text" th:field="*{perusahaan}" />
+                
+                <label class="form-label">Kendaraan</label>
+                <input type="text" th:field="*{kendaraan}" />
+
+                <button type="submit" class="btn btn-primary" name="add">Add</button>
+                <button type="submit" class="btn btn-primary" name="edit">Edit</button>
+                <button type="submit" class="btn btn-primary" name="delete" 
+                        th:formaction="@{/kurir/delete/{id}(id=${formData.id})}">Delete</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

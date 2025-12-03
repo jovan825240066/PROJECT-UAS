@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Semua Kendaraan</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/home.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/table.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/navbar.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/form.css}" />
+</head>
+<body>
+
+    <div class="navbar">
+    <h1 class="logo">TTE Express</h1>
+    <ul class="nav-menu">
+        <li><a th:href="@{/ekspedisi}">Ekspedisi</a></li>
+        <li><a th:href="@{/gudang}">Gudang</a></li>
+        <li><a th:href="@{/kendaraan}">Kendaraan</a></li>
+        <li><a th:href="@{/paket}">Paket</a></li>
+    </ul>
+    </div>
+
+
+    <div class="first-box">
+        <h2>Global List (Semua Kendaraan)</h2>
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Tipe</th>
+                    <th>Merk</th>
+                    <th>Tahun</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody th:each="d, no : ${kendaraanList}">
+                <tr>
+                    <td th:text="${no.count}"></td>
+                    <td th:text="${d.getTipe()}"></td>
+                    <td th:text="${d.merk}"></td>
+                    <td th:text="${d.tahun}"></td>
+                    <td>
+                        <form th:action="@{/kendaraan/delete/{id}(id=${d.id})}" method="post">
+                            <button type="submit" class="btn btn-primary" style="background:red; border:none; padding:5px 10px;">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="second-box">
+        <div id="feedback-form">
+            <h2 class="header">Management Menu</h2>
+            <div class="form-group" style="text-align: center;">
+                <p>Silakan pilih jenis kendaraan yang ingin dikelola:</p>
+                <br>
+                <a th:href="@{/mobil}" class="btn btn-primary" style="display:block; margin-bottom:10px; text-decoration:none; line-height:30px;">Manage Mobil</a>
+                <a th:href="@{/motor}" class="btn btn-primary" style="display:block; margin-bottom:10px; text-decoration:none; line-height:30px;">Manage Motor</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

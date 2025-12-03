@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Paket Page</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/home.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/table.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/form.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/navbar.css}" />
+</head>
+
+<body>
+    <div class="navbar">
+    <h1 class="logo">TTE Express</h1>
+    <ul class="nav-menu">
+        <li><a th:href="@{/ekspedisi}">Ekspedisi</a></li>
+        <li><a th:href="@{/gudang}">Gudang</a></li>
+        <li><a th:href="@{/kendaraan}">Kendaraan</a></li>
+        <li><a th:href="@{/paket}">Paket</a></li>
+    </ul>
+    </div>
+
+<div class="first-box">
+    
+    <div th:if="${param.error}" style="background: #f8d7da; color: #721c24; padding: 15px; margin-bottom: 20px; border: 1px solid #f5c6cb; border-radius: 5px; text-align: center;">
+        <strong>Gagal Menambahkan Paket!</strong> <br/>
+        Kapasitas Gudang yang Anda pilih sudah PENUH. Silakan pilih gudang lain.
+    </div>
+    <h2>Daftar Paket</h2>
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <th>No Resi</th>
+                <th>Jenis Barang</th>
+                <th>Berat (kg)</th>
+                <th>Layanan</th>
+                <th>Gudang</th> 
+                <th>Penerima</th>
+                <th>Asuransi</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody th:each="d : ${paketList}">
+            <tr>
+                <td>
+                    <a th:href="@{/paket/{id}(id=${d.getId()})}" 
+                       th:text="${d.getNomorResi()}"></a>
+                </td>
+                <td th:text="${d.getJenisBarang()}"></td>
+                <td th:text="${d.getBeratBarang()}"></td>
+                <td th:text="${d.getJenisLayanan()}"></td>
+                <td th:text="${d.gudang != null} ? ${d.gudang.lokasi} : '-'"></td>
+                <td th:text="${d.getPenerima()}"></td>
+                <td th:text="${d.getAsuransi()} ? 'Ya' : 'Tidak'"></td>
+                <td>
+                    <form th:action="@{/paket/submit/{id}(id=${d.getId()})}" method="post">
+                         <button type="submit" name="delete" class="btn" style="background-color:red; color:white; border:none; padding:5px;">Hapus</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="second-box">
+    <div id="feedback-form">
+        <h2 class="header">Form Management Paket</h2>
+        <form th:action="@{/paket/submit/{id}(id=${paketRec?.getId()})}"
+              method="post" th:object="${paketInfo}" class="form-group">
+            
+            <input type="hidden" name="id" th:value="${paketRec != null} ? ${paketRec.getId()}: '0'" />
+
+            <label class="form-label">Nomor Resi</label>
+            <input type="text" name="nomorResi" th:value="${paketRec?.getNomorResi()}" required />
+
+            <label class="form-label">Jenis Barang</label>
+            <input type="text" name="jenisBarang" th:value="${paketRec?.getJenisBarang()}" required />
+
+            <label class="form-label">Berat Barang (Kg)</label>
+            <input type="number" step="0.1" name="beratBarang" th:value="${paketRec?.getBeratBarang()}" required />
+
+            <label class="form-label">Jenis Layanan (Regular/Express)</label>
+            <input type="text" name="jenisLayanan" th:value="${paketRec?.getJenisLayanan()}" required />
+
+            <label class="form-label">Tujuan</label>
+            <input type="text" name="tujuan" th:value="${paketRec?.getTujuan()}" required />
+
+            <label class="form-label">Nama Penerima</label>
+            <input type="text" name="penerima" th:value="${paketRec?.getPenerima()}" required />
+
+            <label class="form-label">Pilih Gudang (Otomatis Cek Kapasitas)</label>
+            <select class="form-control" th:field="*{gudang}" required>
+                <option value="">-- Pilih Gudang --</option>
+                <option th:each="g : ${listGudang}" 
+                        th:value="${g.id}" 
+                        th:text="${g.lokasi} + ' (Sisa: ' + (${g.kapasitas} - ${g.terisi}) + ')'"
+                        th:if="${(g.kapasitas - g.terisi) > 0}"> 
+                </option>
+            </select>
+
+            <label class="form-label">Asuransi</label>
+            <select name="asuransi" th:field="*{asuransi}" class="form-control">
+                <option value="false">Tidak</option>
+                <option value="true">Ya</option>
+            </select>
+
+            <div style="margin-top:20px;">
+                <button type="submit" class="btn btn-primary" name="add">Add</button>
+                <button type="submit" class="btn btn-primary" name="edit">Edit</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

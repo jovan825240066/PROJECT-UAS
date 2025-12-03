@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Motor Page</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/home.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/table.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/form.css}" />
+</head>
+<body>
+    
+    <div style="margin: 20px;">
+        <a th:href="@{/kendaraan}" style="text-decoration: none; color: #333;">&larr; Kembali ke Menu Utama</a>
+    </div>
+
+    <div class="first-box">
+        <h2>Daftar Motor</h2>
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Merk</th>
+                    <th>Tahun</th>
+                    <th>Jenis</th>
+                    <th>CC</th>
+                    <th>No Rangka</th>
+                </tr>
+            </thead>
+            <tbody th:each="d, no : ${listData}">
+                <tr>
+                    <td th:text="${no.count}"></td>
+                    <td>
+                        <a th:href="@{/motor/{id}(id=${d.id})}" th:text="${d.merk}"></a>
+                    </td>
+                    <td th:text="${d.tahun}"></td>
+                    <td th:text="${d.jenisMotor}"></td>
+                    <td th:text="${d.kapasitasMesin}"></td>
+                    <td th:text="${d.nomorRangka}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="second-box">
+        <div id="feedback-form">
+            <h2 class="header">Form Motor</h2>
+            <form th:action="@{/motor/save}" method="post" th:object="${formData}" class="form-group">
+                
+                <label for="id" class="form-label">ID</label>
+                <input type="number" id="id" th:field="*{id}" 
+                       th:value="${formData.id != null} ? ${formData.id} : '0'" readonly />
+                
+                <label class="form-label">Merk</label>
+                <input type="text" th:field="*{merk}" required />
+                
+                <label class="form-label">Tahun</label>
+                <input type="number" th:field="*{tahun}" required />
+                
+                <label class="form-label">Jenis Motor</label>
+                <input type="text" th:field="*{jenisMotor}" required />
+                
+                <label class="form-label">Kapasitas Mesin (CC)</label>
+                <input type="number" th:field="*{kapasitasMesin}" required />
+                
+                <label class="form-label">Nomor Rangka</label>
+                <input type="text" th:field="*{nomorRangka}" required />
+
+                <button type="submit" class="btn btn-primary" name="add">Add</button>
+                <button type="submit" class="btn btn-primary" name="edit">Edit</button>
+                <button type="submit" class="btn btn-primary" name="delete" 
+                        th:formaction="@{/motor/delete/{id}(id=${formData.id})}">Delete</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

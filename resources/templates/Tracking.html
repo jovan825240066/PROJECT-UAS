@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>T_T Express (TTE)- Tracking</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/tracking.css}" />
+</head>
+<body>
+
+<div class="card">
+    <h1>T_T Express (TTE)</h1>
+    
+    <form th:action="@{/cek-resi}" method="post">
+        <label><b>Lacak Paket Anda</b></label>
+        <input type="text" name="noResi" placeholder="MASUKKAN NOMOR RESI..." required />
+        <button type="submit" class="btn">Cari Paket</button>
+    </form>
+
+    <div th:if="${paketInfo}" class="result-box">
+        <p style="margin: 5px 0; border-bottom: 2px solid #000; padding-bottom:5px;">
+            <strong>STATUS PAKET:</strong> 
+            <span th:text="${paketInfo.statusDisplay}"></span>
+        </p>
+        <p><strong>Resi:</strong> <span th:text="${paketInfo.nomorResi}"></span></p>
+        <p><strong>Barang:</strong> <span th:text="${paketInfo.jenisBarang}"></span></p>
+        <p><strong>Tujuan:</strong> <span th:text="${paketInfo.tujuan}"></span></p>
+        <p><strong>Tanggal Update:</strong> 
+            <span th:text="${#temporals.format(paketInfo.tanggalUpdate, 'dd-MM-yyyy HH:mm')}"></span>
+        </p>
+    </div>
+
+    <div th:if="${error}" class="error-msg">
+        <p th:text="${error}" style="margin:0;"></p>
+    </div>
+
+    <hr>
+
+    <form th:action="@{/masuk-sistem}" method="post">
+        <p style="font-weight: bold;">AKSES PEGAWAI</p>
+        <button type="submit" class="btn btn-green">Masuk Dashboard</button>
+    </form>
+</div>
+
+</body>
+</html>
